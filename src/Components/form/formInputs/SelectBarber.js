@@ -1,10 +1,9 @@
 const SelectBarber = ({ handleChange, dbBarbers }) => {
   return (
-    <>
       <select
         onChange={handleChange}
         className="input select"
-        name="selectbarber"
+        name="selectedBarber"
         defaultValue={'default'}
       >
         <option value="default" disabled>
@@ -17,8 +16,6 @@ const SelectBarber = ({ handleChange, dbBarbers }) => {
           >{`${barber?.firstName} ${barber?.lastName}`}</option>
         ))}
       </select>
-      <span className="form-err-msg">Please select a barber</span>
-    </>
   );
 };
 

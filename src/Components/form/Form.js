@@ -4,6 +4,7 @@ import ContactInfo from './formInputs/ContactInfo';
 import SelectBarber from './formInputs/SelectBarber';
 import SelectService from './formInputs/SelectService';
 import DateTime from './formInputs/DateTime';
+import FormError from './FormError';
 
 const Form = () => {
   // INPUT STATES
@@ -12,20 +13,64 @@ const Form = () => {
     lastName: '',
     email: '',
     phone: '',
-    selectservice: '',
-    selectbarber: '',
-    selecttime: '',
-    selectdate: '',
+    selectedService: '',
+    selectedBarber: '',
+    selectedTime: '',
+    selectedDate: '',
   };
-
   const [formValues, setFormValues] = useState(initialInputValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleOnFocus = () => {};
+  // SUBMIT HANDLE
+  const handleSubmit = e => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
+  };
+
+  useEffect(() => {
+    console.log(formErrors);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(formValues);
+    }
+  }, [formErrors]);
+
+  const validate = values => {
+    const errors = {};
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const phoneRegex =
+      /^(([0-9]{3})[ \-\/]?([0-9]{3})[ \-\/]?([0-9]{3}))|([0-9]{9})|([\+]?([0-9]{3})[ \-\/]?([0-9]{2})[ \-\/]?([0-9]{3})[ \-\/]?([0-9]{3}))$/;
+
+    if (!values.firstName || !values.lastName) {
+      errors.firstName = 'Please enter your full name';
+    }
+    if (!values.email || !regexEmail.test(formValues.email)) {
+      errors.email = 'Please enter a valid email';
+    }
+    if (!values.phone || !phoneRegex.test(formValues.phone)) {
+      errors.phone = 'Please enter phone number';
+    }
+    if (!values.selectedBarber) {
+      errors.selectedBarber = 'Please select a barber';
+    }
+    if (!values.selectedService) {
+      errors.selectedService = 'Please select a service';
+    }
+    if (!values.selectedDate) {
+      errors.selectedDate = 'Please pick a date';
+    }
+    if (!values.selectedTime) {
+      errors.selectedTime = 'Please pick a time';
+    }
+
+    return errors;
+  };
 
   // async (GET) API DATA
   const fetchServices = async () => {
@@ -73,28 +118,30 @@ const Form = () => {
     getData();
   }, []);
 
-  // SUBMIT HANDLE
-  const handleSubmit = e => {
-    e.preventDefault();
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <h2>Book your appointment</h2>
       <div className="input-group full-name-wrapper">
         <Fullname handleChange={handleChange} />
+        <span className="form-err-msg">{formErrors.firstName}</span>
       </div>
       <div className="input-group contact-wrapper">
         <ContactInfo handleChange={handleChange} />
+        <span className="form-err-msg">{formErrors.email}</span>
+        <span className="form-err-msg">{formErrors.phone}</span>
       </div>
       <div className="input-group select-b-s">
         <SelectBarber dbBarbers={dbBarbers} handleChange={handleChange} />
+        <span className="form-err-msg">{formErrors.selectedBarber}</span>
         <SelectService dbServices={dbServices} handleChange={handleChange} />
+        <span className="form-err-msg">{formErrors.selectedService}</span>
       </div>
       <div className="input-group select-d-t">
         <DateTime handleChange={handleChange} />
+        <span className="form-err-msg">{formErrors.selectedDate}</span>
+        <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>
-      <input className="input" placeholder="Select any service" disabled />
+      <input className="input" placeholder="Select a service" disabled />
       <button className="btn-submit" type="submit">
         Book appointment
       </button>

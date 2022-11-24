@@ -6,9 +6,9 @@ const ContactInfo = ({ handleChange }) => {
         className="input"
         name="email"
         type="email"
+        maxLength={40}
         placeholder="Email"
       />
-      <span className="form-err-msg">Please enter a valid email</span>
       <input
         onChange={handleChange}
         className="input"
@@ -16,7 +16,6 @@ const ContactInfo = ({ handleChange }) => {
         type="phone"
         placeholder="Contact number"
       />
-      <span className="form-err-msg">Please enter phone number</span>
     </>
   );
 };
