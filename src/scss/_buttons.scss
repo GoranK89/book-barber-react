@@ -1,0 +1,26 @@
+%button {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  transition: 0.25s;
+  font-family: $fontText;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  border-radius: 10rem;
+
+  &:hover {
+    transform: scale(0.98);
+  }
+}
+
+.btn-submit {
+  @extend %button;
+
+  margin-top: 1.8rem;
+  margin-bottom: 1.2rem;
+  font-size: 19px;
+  padding: 1.5rem 1rem;
+  background-color: $colorBtnForm;
+  color: $colorWhite;
+}

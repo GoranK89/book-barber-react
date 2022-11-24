@@ -1,0 +1,138 @@
+@import './config';
+@import './buttons';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#root {
+  background-color: $backgroundColor;
+}
+
+main {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+}
+
+/***********************************/
+/* HEADING*/
+/***********************************/
+
+.heading-wrapper {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4.4rem;
+
+  h1 {
+    font-family: $fontTitle;
+    text-transform: uppercase;
+    color: $colorBlack;
+    font-size: 70px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  p {
+    font-family: $fontText;
+    text-transform: capitalize;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 2.4rem;
+    letter-spacing: 1px;
+  }
+}
+
+.hero-form-container {
+  position: relative;
+}
+
+#img-hero {
+  padding: 1rem;
+  max-width: 75.7rem;
+  border: 2px solid $colorBlack;
+  margin-left: 20rem;
+}
+
+/***********************************/
+/* BOOKING FORM */
+/***********************************/
+
+form {
+  position: absolute;
+  top: 21.5%;
+  right: 14.2%;
+  background-color: $BackgroundColorForm;
+  padding: 2.4rem 2.6rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+
+  h2 {
+    text-align: center;
+    font-family: $fontTitle;
+    color: $colorWhite;
+    text-transform: uppercase;
+    font-size: 45px;
+    font-weight: 500;
+    letter-spacing: 1.8px;
+  }
+
+  .input-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    column-gap: 1rem;
+    row-gap: 0.4rem;
+  }
+
+  .input-group:nth-child(2) {
+    margin-bottom: 1.4rem;
+  }
+  .input-group:nth-child(5) {
+    margin-bottom: 0.7rem;
+  }
+
+  .form-err-msg {
+    display: none;
+    color: #e04640;
+    font-family: $fontText;
+    font-size: 14px;
+    grid-row: 2;
+  }
+
+  .input {
+    border: none;
+    background-color: $colorWhite;
+    font-family: $fontText;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 500;
+
+    padding: 1rem 1rem;
+
+    &::placeholder {
+      text-transform: capitalize;
+    }
+  }
+
+  .select {
+    border-radius: 3px;
+    color: $colorPlaceholder;
+    text-transform: capitalize;
+    font-size: 14px;
+  }
+}
+
+/***********************************/
+/* MEDIA QUERRIES */
+/***********************************/
+@import './mobile';
