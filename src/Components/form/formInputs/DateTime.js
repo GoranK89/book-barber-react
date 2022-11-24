@@ -1,15 +1,15 @@
-const DateTime = ({ setDate, setTime }) => {
+const DateTime = ({ handleChange }) => {
   return (
     <>
       <input
-        onChange={e => setDate(e.target.value)}
+        onChange={handleChange}
         className="input"
         name="selectdate"
         type="date"
       />
       <span className="form-err-msg">Please pick a date</span>
       <select
-        onChange={e => setTime(e.target.value)}
+        onChange={handleChange}
         className="input select"
         name="selecttime"
       >

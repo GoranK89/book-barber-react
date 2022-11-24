@@ -1,8 +1,8 @@
-const SelectBarber = ({ setBarber, dbBarbers }) => {
+const SelectBarber = ({ handleChange, dbBarbers }) => {
   return (
     <>
       <select
-        onChange={e => setBarber(e.target.value)}
+        onChange={handleChange}
         className="input select"
         name="selectbarber"
         defaultValue={'default'}
@@ -13,6 +13,7 @@ const SelectBarber = ({ setBarber, dbBarbers }) => {
         {dbBarbers.map(barber => (
           <option
             key={barber?.id}
+            value={`${barber?.firstName} ${barber?.lastName}`}
           >{`${barber?.firstName} ${barber?.lastName}`}</option>
         ))}
       </select>
@@ -20,7 +21,5 @@ const SelectBarber = ({ setBarber, dbBarbers }) => {
     </>
   );
 };
-
-// remember: add default props
 
 export default SelectBarber;

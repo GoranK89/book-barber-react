@@ -1,8 +1,8 @@
-const ContactInfo = ({ setEmail, setPhone }) => {
+const ContactInfo = ({ handleChange }) => {
   return (
     <>
       <input
-        onChange={e => setEmail(e.target.value)}
+        onChange={handleChange}
         className="input"
         name="email"
         type="email"
@@ -10,7 +10,7 @@ const ContactInfo = ({ setEmail, setPhone }) => {
       />
       <span className="form-err-msg">Please enter a valid email</span>
       <input
-        onChange={e => setPhone(e.target.value)}
+        onChange={handleChange}
         className="input"
         name="phone"
         type="phone"

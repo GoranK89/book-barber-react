@@ -1,8 +1,8 @@
-const SelectService = ({ setService, dbServices }) => {
+const SelectService = ({ handleChange, dbServices }) => {
   return (
     <>
       <select
-        onChange={e => setService(e.target.value)}
+        onChange={handleChange}
         className="input select"
         name="selectservice"
         defaultValue={'default'}
@@ -11,7 +11,9 @@ const SelectService = ({ setService, dbServices }) => {
           Select service
         </option>
         {dbServices.map(service => (
-          <option key={service?.id}>{service?.name}</option>
+          <option key={service?.id} value={service?.name}>
+            {service?.name}
+          </option>
         ))}
       </select>
       <span className="form-err-msg">Please select a service</span>

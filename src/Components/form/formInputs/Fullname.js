@@ -1,15 +1,15 @@
-const Fullname = ({ setFirstName, setLastName }) => {
+const Fullname = ({ handleChange }) => {
   return (
     <>
       <input
-        onChange={e => setFirstName(e.target.value)}
+        onChange={handleChange}
         className="input"
         name="firstName"
         type="text"
         placeholder="First name"
       />
       <input
-        onChange={e => setLastName(e.target.value)}
+        onChange={handleChange}
         className="input"
         name="lastName"
         type="text"
