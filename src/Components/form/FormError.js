@@ -1,5 +1,5 @@
-const FormError = ({ text }) => {
-  return <span className="form-err-msg">{text}</span>;
+const FormError = ({ error }) => {
+  return <span className="form-err-msg">{error}</span>;
 };
 
 FormError.defaultProps = {

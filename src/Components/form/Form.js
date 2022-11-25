@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import Fullname from './formInputs/Fullname';
-import ContactInfo from './formInputs/ContactInfo';
+import Inputs from './formInputs/Inputs';
+import Selects from './formInputs/Selects';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import SelectBarber from './formInputs/SelectBarber';
 import SelectService from './formInputs/SelectService';
-import DateTime from './formInputs/DateTime';
-import FormError from './FormError';
 
 const Form = () => {
   // INPUT STATES
@@ -16,15 +17,17 @@ const Form = () => {
     selectedService: '',
     selectedBarber: '',
     selectedTime: '',
-    selectedDate: '',
+    selectedDate: null,
   };
   const [formValues, setFormValues] = useState(initialInputValues);
+  const [date, setDate] = useState();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
+    console.log(value);
   };
 
   // SUBMIT HANDLE
@@ -44,7 +47,7 @@ const Form = () => {
   const validate = values => {
     const errors = {};
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    const phoneRegex =
+    const regexPhone =
       /^(([0-9]{3})[ \-\/]?([0-9]{3})[ \-\/]?([0-9]{3}))|([0-9]{9})|([\+]?([0-9]{3})[ \-\/]?([0-9]{2})[ \-\/]?([0-9]{3})[ \-\/]?([0-9]{3}))$/;
 
     if (!values.firstName || !values.lastName) {
@@ -53,7 +56,7 @@ const Form = () => {
     if (!values.email || !regexEmail.test(formValues.email)) {
       errors.email = 'Please enter a valid email';
     }
-    if (!values.phone || !phoneRegex.test(formValues.phone)) {
+    if (!values.phone || !regexPhone.test(formValues.phone)) {
       errors.phone = 'Please enter phone number';
     }
     if (!values.selectedBarber) {
@@ -122,23 +125,70 @@ const Form = () => {
     <form onSubmit={handleSubmit}>
       <h2>Book your appointment</h2>
       <div className="input-group full-name-wrapper">
-        <Fullname handleChange={handleChange} />
+        <Inputs
+          onChange={handleChange}
+          name={'firstName'}
+          type={'text'}
+          maxLength={20}
+          placeholder={'First name'}
+        />
+        <Inputs
+          onChange={handleChange}
+          name={'lastName'}
+          type={'text'}
+          maxLength={20}
+          placeholder={'Last name'}
+        />
         <span className="form-err-msg">{formErrors.firstName}</span>
       </div>
       <div className="input-group contact-wrapper">
-        <ContactInfo handleChange={handleChange} />
+        <Inputs
+          onChange={handleChange}
+          name={'email'}
+          type={'email'}
+          maxLength={40}
+          placeholder={'Email'}
+        />
         <span className="form-err-msg">{formErrors.email}</span>
+        <Inputs
+          onChange={handleChange}
+          name={'phone'}
+          type={'tel'}
+          placeholder={'Contact number'}
+        />
         <span className="form-err-msg">{formErrors.phone}</span>
       </div>
       <div className="input-group select-b-s">
-        <SelectBarber dbBarbers={dbBarbers} handleChange={handleChange} />
+        <Selects
+          arr={dbBarbers}
+          onChange={handleChange}
+          name={'selectedBarber'}
+          disabledText={'Select barber'}
+          value={'firstName'}
+          optionContent={'firstName'}
+        />
         <span className="form-err-msg">{formErrors.selectedBarber}</span>
-        <SelectService dbServices={dbServices} handleChange={handleChange} />
+        <Selects
+          arr={dbServices}
+          onChange={handleChange}
+          name={'selectedService'}
+          disabledText={'Select service'}
+          value={'name'}
+          optionContent={'name'}
+        />
         <span className="form-err-msg">{formErrors.selectedService}</span>
       </div>
       <div className="input-group select-d-t">
-        <DateTime handleChange={handleChange} />
+        <Inputs onChange={handleChange} name={'selectedDate'} type={'date'} />
         <span className="form-err-msg">{formErrors.selectedDate}</span>
+        <Selects
+          arr={dbWorkHours}
+          onChange={handleChange}
+          name={'selectedTime'}
+          disabledText={'Select time'}
+          value={'name'}
+          optionContent={'startHour'}
+        />
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>
       <input className="input" placeholder="Select a service" disabled />

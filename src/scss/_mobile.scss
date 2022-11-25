@@ -25,10 +25,28 @@
 
     form {
       position: static;
+      gap: 0;
 
       .input-group {
         display: flex;
         flex-direction: column;
+        row-gap: 0;
+      }
+
+      .input-group:nth-child(2) {
+        margin-bottom: 0;
+      }
+      .input-group:nth-child(5) {
+        margin-bottom: 0;
+      }
+
+      .input {
+        margin-bottom: 1rem;
+      }
+
+      .mobile-error {
+        color: hotpink;
+        position: absolute;
       }
     }
   }
