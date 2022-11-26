@@ -1,14 +1,16 @@
-@media (max-width: 510px) {
+@media (max-width: 515px) {
   .heading-wrapper {
-    margin-top: 0.7rem;
+    margin-top: 5px;
+    margin-bottom: 53px;
+
     h1 {
       font-size: 46px;
     }
 
     p {
-      font-size: 16px;
-      line-height: 2rem;
-      padding: 0 2.6rem;
+      font-size: 17px;
+      line-height: 30px;
+      padding: 0 30px;
     }
   }
 
@@ -16,16 +18,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: 30px;
 
     #img-hero {
-      width: 90%;
+      width: 89%;
       margin: 0;
+      padding: 8px;
+      border: 3px solid black;
     }
 
     form {
       position: static;
       gap: 0;
+      padding: 32px 38px;
+      padding-bottom: 0;
+
+      h2 {
+        font-size: 36px;
+        margin-bottom: 38px;
+      }
 
       .input-group {
         display: flex;
@@ -33,20 +44,25 @@
         row-gap: 0;
       }
 
-      .input-group:nth-child(2) {
-        margin-bottom: 0;
-      }
-      .input-group:nth-child(5) {
-        margin-bottom: 0;
+      @for $i from 2 through 5 {
+        .input-group:nth-child(#{$i}) {
+          margin-bottom: 0;
+        }
       }
 
       .input {
-        margin-bottom: 1rem;
+        margin-bottom: 12px;
+        font-size: 14px;
+        letter-spacing: 2px;
+        padding: 10px 13px;
       }
 
-      .mobile-error {
-        color: hotpink;
-        position: absolute;
+      .mobile {
+        margin-top: 24px;
+        margin-bottom: 40px;
+        font-size: 19px;
+        padding: 16px 0;
+        width: 380px;
       }
     }
   }

@@ -17,10 +17,10 @@
 .btn-submit {
   @extend %button;
 
-  margin-top: 1.8rem;
+  margin-top: 48px;
   margin-bottom: 1.2rem;
   font-size: 19px;
-  padding: 1.5rem 1rem;
+  padding: 1.2rem 1rem;
   background-color: $colorBtnForm;
   color: $colorWhite;
 }

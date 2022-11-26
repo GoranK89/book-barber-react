@@ -121,6 +121,18 @@ const Form = () => {
     getData();
   }, []);
 
+  const experiment = () => {
+    const availableHours = [];
+    const startWork = 7;
+    const endWork = 15;
+    for (let i = startWork; i <= endWork; i++) {
+      availableHours.push(i);
+    }
+    console.log(availableHours);
+  };
+
+  experiment();
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>Book your appointment</h2>
@@ -192,7 +204,7 @@ const Form = () => {
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>
       <input className="input" placeholder="Select a service" disabled />
-      <button className="btn-submit" type="submit">
+      <button className="btn-submit mobile" type="submit">
         Book appointment
       </button>
     </form>
