@@ -21,7 +21,7 @@ const Form = () => {
     selectedDate: null,
   };
   const [formValues, setFormValues] = useState(initialInputValues);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(null);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
@@ -111,6 +111,9 @@ const Form = () => {
   const [dbBarbers, setBarbers] = useState([]);
   const [dbWorkHours, setWorkHours] = useState([]);
 
+  const jozeWorkDays = dbBarbers[0]?.workHours;
+  console.log(jozeWorkDays);
+
   useEffect(() => {
     const getData = async () => {
       const dbServices = await fetchServices();
@@ -137,6 +140,19 @@ const Form = () => {
     }
     if (!formValues.selectedService) return 'Select a service';
   };
+
+  const selectHours = [];
+  const selectMinutes = [];
+  const workHours = () => {
+    const startHour = dbBarbers[0]?.workHours[3].startHour;
+    const endHour = dbBarbers[0]?.workHours[3].endHour;
+
+    for (let i = startHour; i <= endHour; i++) {
+      selectHours.push(i);
+    }
+    for (let j = 5; j <= 60; j += 5) selectMinutes.push(j);
+  };
+  workHours();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -196,16 +212,21 @@ const Form = () => {
         <span className="form-err-msg">{formErrors.selectedService}</span>
       </div>
       <div className="input-group select-d-t">
-        <Inputs onChange={handleChange} name={'selectedDate'} type={'date'} />
+        <DatePicker
+          id="date-picker"
+          onChange={date => setDate(date)}
+          selected={date}
+          minDate={new Date()}
+          filterDate={date => date.getDay() != 1}
+        />
         <span className="form-err-msg">{formErrors.selectedDate}</span>
         <Selects
-          arr={dbWorkHours}
+          arr={dbBarbers}
           onChange={handleChange}
           name={'selectedTime'}
           disabledText={'Select time'}
-          value={'name'}
-          optionContent={'startHour'}
         />
+
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>
       <input className="input" placeholder={displayPrice()} disabled />
