@@ -1,16 +1,13 @@
-import Header from './Components/Header';
-import ImgHero from './Components/ImgHero';
-import Form from './Components/form/Form';
+import BookingPage from './pages/BookingPage';
+import SuccessPage from './pages/SuccessPage';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <main>
-      <Header />
-      <div className="hero-form-container">
-        <ImgHero />
-        <Form />
-      </div>
-    </main>
+    <Routes>
+      <Route path="/" element={<BookingPage />} />
+      <Route path="/success" element={<SuccessPage />} />
+    </Routes>
   );
 }
 

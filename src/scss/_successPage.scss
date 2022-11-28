@@ -1,0 +1,21 @@
+.success-page-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-family: $fontTitle;
+    color: $colorBlack;
+    text-transform: uppercase;
+    font-size: 45px;
+    font-weight: 500;
+    letter-spacing: 1.8px;
+    margin-bottom: 42px;
+  }
+
+  img {
+    margin: 0;
+  }
+}

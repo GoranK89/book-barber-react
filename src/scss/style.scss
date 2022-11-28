@@ -1,5 +1,6 @@
 @import './config';
 @import './buttons';
+@import './successPage';
 
 * {
   padding: 0;
@@ -57,7 +58,7 @@ main {
   position: relative;
 }
 
-#img-hero {
+img {
   padding: 1rem;
   max-width: 1062px;
   border: 2px solid $colorBlack;

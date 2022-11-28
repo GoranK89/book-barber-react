@@ -3,6 +3,7 @@ import Inputs from './formInputs/Inputs';
 import Selects from './formInputs/Selects';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router-dom';
 
 import SelectBarber from './formInputs/SelectBarber';
 import SelectService from './formInputs/SelectService';
@@ -37,10 +38,12 @@ const Form = () => {
     setIsSubmit(true);
   };
 
+  // Redirect
+  const navigate = useNavigate();
   useEffect(() => {
-    console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(formValues);
+      navigate('/success');
     }
   }, [formErrors]);
 
@@ -121,17 +124,19 @@ const Form = () => {
     getData();
   }, []);
 
-  const experiment = () => {
-    const availableHours = [];
-    const startWork = 7;
-    const endWork = 15;
-    for (let i = startWork; i <= endWork; i++) {
-      availableHours.push(i);
+  const displayPrice = () => {
+    // make this less manual
+    if (formValues.selectedService === 'Shave') {
+      return `Price is ${dbServices[0].price} €`;
     }
-    console.log(availableHours);
+    if (formValues.selectedService === 'Haircut') {
+      return `Price is ${dbServices[1].price} €`;
+    }
+    if (formValues.selectedService === 'Shave + Haircut') {
+      return `Price is ${dbServices[2].price} €`;
+    }
+    if (!formValues.selectedService) return 'Select a service';
   };
-
-  experiment();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -203,7 +208,7 @@ const Form = () => {
         />
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>
-      <input className="input" placeholder="Select a service" disabled />
+      <input className="input" placeholder={displayPrice()} disabled />
       <button className="btn-submit mobile" type="submit">
         Book appointment
       </button>
