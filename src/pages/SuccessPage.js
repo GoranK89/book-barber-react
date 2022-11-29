@@ -27,7 +27,7 @@ const SuccessPage = () => {
     fetchGif();
   }, []);
   return (
-    <main class="success-page-wrapper">
+    <main className="success-page-wrapper">
       <h2>Appointment successfully booked</h2>
       <HeroImg
         src={gif[rng]?.images.original.url}

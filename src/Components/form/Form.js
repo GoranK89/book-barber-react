@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import Inputs from './formInputs/Inputs';
-import Selects from './formInputs/Selects';
+import SelectBarber from './formInputs/SelectBarber';
+import SelectService from './formInputs/SelectService';
+import SelectTime from './formInputs/SelectTime';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 
-import SelectBarber from './formInputs/SelectBarber';
-import SelectService from './formInputs/SelectService';
-
 const Form = () => {
-  // INPUT STATES
   const initialInputValues = {
     firstName: '',
     lastName: '',
@@ -18,17 +16,17 @@ const Form = () => {
     selectedService: '',
     selectedBarber: '',
     selectedTime: '',
-    selectedDate: null,
   };
-  const [formValues, setFormValues] = useState(initialInputValues);
+  // seperate useState for date - doesn't work with regular handleChange
   const [date, setDate] = useState(null);
+  const [formValues, setFormValues] = useState(initialInputValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    console.log(value);
+    console.log(`Changed value: ${value}, Changed date: ${date}`);
   };
 
   // SUBMIT HANDLE
@@ -38,11 +36,11 @@ const Form = () => {
     setIsSubmit(true);
   };
 
-  // Redirect
+  // Redirect on success
   const navigate = useNavigate();
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
+      console.log(`submited values: ${formValues} ${date}`);
       navigate('/success');
     }
   }, [formErrors]);
@@ -68,7 +66,7 @@ const Form = () => {
     if (!values.selectedService) {
       errors.selectedService = 'Please select a service';
     }
-    if (!values.selectedDate) {
+    if (!date) {
       errors.selectedDate = 'Please pick a date';
     }
     if (!values.selectedTime) {
@@ -107,12 +105,12 @@ const Form = () => {
     }
   };
 
+  // db = the json 'database'
   const [dbServices, setServices] = useState([]);
   const [dbBarbers, setBarbers] = useState([]);
   const [dbWorkHours, setWorkHours] = useState([]);
 
-  const jozeWorkDays = dbBarbers[0]?.workHours;
-  console.log(jozeWorkDays);
+  const barberWorkHours = dbBarbers[0]?.workHours;
 
   useEffect(() => {
     const getData = async () => {
@@ -140,19 +138,6 @@ const Form = () => {
     }
     if (!formValues.selectedService) return 'Select a service';
   };
-
-  const selectHours = [];
-  const selectMinutes = [];
-  const workHours = () => {
-    const startHour = dbBarbers[0]?.workHours[3].startHour;
-    const endHour = dbBarbers[0]?.workHours[3].endHour;
-
-    for (let i = startHour; i <= endHour; i++) {
-      selectHours.push(i);
-    }
-    for (let j = 5; j <= 60; j += 5) selectMinutes.push(j);
-  };
-  workHours();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -192,40 +177,24 @@ const Form = () => {
         <span className="form-err-msg">{formErrors.phone}</span>
       </div>
       <div className="input-group select-b-s">
-        <Selects
-          arr={dbBarbers}
-          onChange={handleChange}
-          name={'selectedBarber'}
-          disabledText={'Select barber'}
-          value={'firstName'}
-          optionContent={'firstName'}
-        />
+        <SelectBarber onChange={handleChange} barberArr={dbBarbers} />
         <span className="form-err-msg">{formErrors.selectedBarber}</span>
-        <Selects
-          arr={dbServices}
-          onChange={handleChange}
-          name={'selectedService'}
-          disabledText={'Select service'}
-          value={'name'}
-          optionContent={'name'}
-        />
+        <SelectService onChange={handleChange} serviceArr={dbServices} />
         <span className="form-err-msg">{formErrors.selectedService}</span>
       </div>
       <div className="input-group select-d-t">
         <DatePicker
+          className="input"
           id="date-picker"
+          placeholderText="Select date"
           onChange={date => setDate(date)}
           selected={date}
           minDate={new Date()}
           filterDate={date => date.getDay() != 1}
+          dateFormat="dd/MM/yyyy"
         />
         <span className="form-err-msg">{formErrors.selectedDate}</span>
-        <Selects
-          arr={dbBarbers}
-          onChange={handleChange}
-          name={'selectedTime'}
-          disabledText={'Select time'}
-        />
+        <SelectTime onChange={handleChange} arr={barberWorkHours} />
 
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>

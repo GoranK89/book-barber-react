@@ -1,7 +1,7 @@
-const SelectService = ({ handleChange, dbServices }) => {
+const SelectService = ({ onChange, serviceArr }) => {
   return (
     <select
-      onChange={handleChange}
+      onChange={onChange}
       className="input select"
       name="selectedService"
       defaultValue={'default'}
@@ -9,7 +9,7 @@ const SelectService = ({ handleChange, dbServices }) => {
       <option value="default" disabled>
         Select service
       </option>
-      {dbServices.map(service => (
+      {serviceArr.map(service => (
         <option key={service?.id} value={service?.name}>
           {service?.name}
         </option>
