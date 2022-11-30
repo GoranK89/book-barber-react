@@ -26,7 +26,6 @@ const Form = () => {
   const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    console.log(`Changed value: ${value}, Changed date: ${date}`);
   };
 
   // SUBMIT HANDLE
@@ -40,7 +39,6 @@ const Form = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(`submited values: ${formValues} ${date}`);
       navigate('/success');
     }
   }, [formErrors]);
@@ -81,7 +79,7 @@ const Form = () => {
     try {
       const res = await fetch('http://localhost:5000/services');
       const data = await res.json();
-      return data;
+      setServices(data);
     } catch (error) {
       console.error(`Services data, ${error}`);
     }
@@ -90,7 +88,7 @@ const Form = () => {
     try {
       const res = await fetch('http://localhost:5000/barbers');
       const data = await res.json();
-      return data;
+      setBarbers(data);
     } catch (error) {
       console.error(`Barbers data, ${error}`);
     }
@@ -99,31 +97,29 @@ const Form = () => {
     try {
       const res = await fetch('http://localhost:5000/workHours');
       const data = await res.json();
-      return data;
+      setWorkHours(data);
     } catch (error) {
       console.error(`Work hours data, ${error}`);
     }
   };
+
+  useEffect(() => {
+    fetchServices();
+    fetchBarbers();
+    fetchWorkHours();
+  }, []);
 
   // db = the json 'database'
   const [dbServices, setServices] = useState([]);
   const [dbBarbers, setBarbers] = useState([]);
   const [dbWorkHours, setWorkHours] = useState([]);
 
-  const barberWorkHours = dbBarbers[0]?.workHours;
+  const barberWorkDays = dbBarbers[0]?.workHours;
 
-  useEffect(() => {
-    const getData = async () => {
-      const dbServices = await fetchServices();
-      const dbBarbers = await fetchBarbers();
-      const dbWorkHours = await fetchWorkHours();
-      setServices(dbServices);
-      setBarbers(dbBarbers);
-      setWorkHours(dbWorkHours);
-    };
-
-    getData();
-  }, []);
+  const isWeekday = date => {
+    const day = date.getDay();
+    return day !== 0 && day !== 6;
+  };
 
   const displayPrice = () => {
     // make this less manual
@@ -138,6 +134,11 @@ const Form = () => {
     }
     if (!formValues.selectedService) return 'Select a service';
   };
+
+  if (formValues.selectedBarber === 'Jože Britvica') {
+    // select date = filter: his work days
+    // select time = his work time
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -179,22 +180,41 @@ const Form = () => {
       <div className="input-group select-b-s">
         <SelectBarber onChange={handleChange} barberArr={dbBarbers} />
         <span className="form-err-msg">{formErrors.selectedBarber}</span>
-        <SelectService onChange={handleChange} serviceArr={dbServices} />
+        <SelectService
+          barberPicked={formValues.selectedBarber}
+          onChange={handleChange}
+          serviceArr={dbServices}
+        />
         <span className="form-err-msg">{formErrors.selectedService}</span>
       </div>
       <div className="input-group select-d-t">
-        <DatePicker
-          className="input"
-          id="date-picker"
-          placeholderText="Select date"
-          onChange={date => setDate(date)}
-          selected={date}
-          minDate={new Date()}
-          filterDate={date => date.getDay() != 1}
-          dateFormat="dd/MM/yyyy"
-        />
+        {formValues.selectedBarber !== '' ? (
+          <DatePicker
+            className="input"
+            id="date-picker"
+            placeholderText="Select date"
+            onChange={date => setDate(date)}
+            selected={date}
+            minDate={new Date()}
+            filterDate={isWeekday}
+            dateFormat="dd/MM/yyyy"
+          />
+        ) : (
+          <select className="input" defaultValue={'default'}>
+            <option value="default" disabled>
+              Select date
+            </option>
+            <option className="form-err-msg" disabled>
+              First select a barber
+            </option>
+          </select>
+        )}
+
         <span className="form-err-msg">{formErrors.selectedDate}</span>
-        <SelectTime onChange={handleChange} arr={barberWorkHours} />
+        <SelectTime
+          barberPicked={formValues.selectedBarber}
+          onChange={handleChange}
+        />
 
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>

@@ -1,4 +1,4 @@
-const SelectService = ({ onChange, serviceArr }) => {
+const SelectService = ({ onChange, serviceArr, barberPicked }) => {
   return (
     <select
       onChange={onChange}
@@ -9,11 +9,17 @@ const SelectService = ({ onChange, serviceArr }) => {
       <option value="default" disabled>
         Select service
       </option>
-      {serviceArr.map(service => (
-        <option key={service?.id} value={service?.name}>
-          {service?.name}
+      {barberPicked != '' ? (
+        serviceArr.map(service => (
+          <option key={service?.id} value={service?.name}>
+            {service?.name}
+          </option>
+        ))
+      ) : (
+        <option disabled className="form-err-msg">
+          First select a barber
         </option>
-      ))}
+      )}
     </select>
   );
 };

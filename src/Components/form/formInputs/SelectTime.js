@@ -1,4 +1,4 @@
-const SelectTime = ({ onChange, arr }) => {
+const SelectTime = ({ onChange, barberPicked }) => {
   // IN PROGRESS
   const selectHours = [];
   const selectMinutes = [];
@@ -12,7 +12,6 @@ const SelectTime = ({ onChange, arr }) => {
     for (let j = 5; j <= 60; j += 5) selectMinutes.push(j);
   };
   workHours();
-  console.log();
 
   return (
     <select
@@ -24,11 +23,17 @@ const SelectTime = ({ onChange, arr }) => {
       <option value="default" disabled>
         Select time
       </option>
-      {arr?.map(hours => (
-        <option key={hours.id} value={hours.startHour}>
-          {hours.startHour}
+      {barberPicked != '' ? (
+        selectHours?.map((h, i) => (
+          <option key={i} value={h}>
+            {h}
+          </option>
+        ))
+      ) : (
+        <option disabled className="form-err-msg">
+          First select a barber
         </option>
-      ))}
+      )}
     </select>
   );
 };
