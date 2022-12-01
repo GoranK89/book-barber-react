@@ -1,14 +1,13 @@
 const SelectTime = ({ onChange, barberPicked, datePicked, dbBarbers }) => {
   // IN PROGRESS
-  const generateTime = () => {
+  const renderAvailableTimes = () => {
     const selectedDay = datePicked?.getDay() - 1; //  -1 to match with array index
     const barbersBookedDay = dbBarbers[0]?.workHours[selectedDay]?.day;
     const barbersBookedId = dbBarbers[0]?.workHours[selectedDay]?.id;
-
     const barberStartHour = dbBarbers[0]?.workHours[selectedDay]?.startHour;
     const barberEndHour = dbBarbers[0]?.workHours[selectedDay]?.endHour;
-
     const allWorkHours = [];
+
     for (let i = barberStartHour; i <= barberEndHour; i++) {
       allWorkHours.push(`${i}:00`);
     }
@@ -44,7 +43,7 @@ const SelectTime = ({ onChange, barberPicked, datePicked, dbBarbers }) => {
         Select time
       </option>
       {barberPicked && datePicked ? (
-        generateTime()
+        renderAvailableTimes()
       ) : (
         <option disabled className="form-err-msg">
           First select a date

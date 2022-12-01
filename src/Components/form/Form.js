@@ -75,10 +75,51 @@ const Form = () => {
     setIsSubmit(true);
   };
 
+  // POST FORM DATA
+  const matchServicesId = () => {
+    let id;
+    dbServices.find(item => {
+      if (item.name === formValues.selectedService) id = item.id;
+    });
+    return id;
+  };
+  const matchBarberId = () => {
+    let id;
+    const firstName = formValues.selectedBarber?.split(' ')[0];
+    const lastName = formValues.selectedBarber?.split(' ')[1];
+    dbBarbers.find(item => {
+      if (item.firstName === firstName && item.lastName === lastName)
+        id = item.id;
+    });
+    return id;
+  };
+
+  const postData = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: '',
+          startDate: parseInt((date.getTime() / 1000).toFixed(0)),
+          barberId: matchBarberId(),
+          serviceId: matchServicesId(),
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Redirect on success
   const navigate = useNavigate();
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
+      postData();
       navigate('/success');
     }
   }, [formErrors]);
