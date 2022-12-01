@@ -8,7 +8,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
-  // async (GET) API DATA
   const fetchServices = async () => {
     try {
       const res = await fetch('http://localhost:5000/services');
@@ -27,11 +26,11 @@ const Form = () => {
       console.error(`Barbers data, ${error}`);
     }
   };
-  const fetchWorkHours = async () => {
+  const fetchAppointments = async () => {
     try {
-      const res = await fetch('http://localhost:5000/workHours');
+      const res = await fetch('http://localhost:5000/appointments');
       const data = await res.json();
-      setWorkHours(data);
+      setAppointments(data);
     } catch (error) {
       console.error(`Work hours data, ${error}`);
     }
@@ -40,13 +39,13 @@ const Form = () => {
   useEffect(() => {
     fetchServices();
     fetchBarbers();
-    fetchWorkHours();
+    fetchAppointments();
   }, []);
 
   // db = the json 'database'
   const [dbServices, setServices] = useState([]);
   const [dbBarbers, setBarbers] = useState([]);
-  const [dbWorkHours, setWorkHours] = useState([]);
+  const [dbAppointments, setAppointments] = useState([]);
   const [date, setDate] = useState(null);
 
   const initialInputValues = {
@@ -63,12 +62,12 @@ const Form = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
+  // HANDLE CHANGE & SUBMIT
   const handleChange = e => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  // SUBMIT HANDLE
   const handleSubmit = e => {
     e.preventDefault();
     setFormErrors(validate(formValues));
@@ -245,7 +244,7 @@ const Form = () => {
         ) : (
           <select className="input" defaultValue={'default'}>
             <option value="default" disabled>
-              Select date
+              Select Date
             </option>
             <option className="form-err-msg" disabled>
               First select a barber

@@ -20,7 +20,6 @@ const SelectTime = ({ onChange, barberPicked, datePicked, dbBarbers }) => {
         );
       });
     }
-
     if (barbersBookedId > 5) {
       return allWorkHours.map((item, index) => {
         return (
