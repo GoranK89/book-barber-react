@@ -142,33 +142,6 @@ const Form = () => {
     );
   };
 
-  const checkShift = () => {
-    dbWorkHours.forEach(workDay => {
-      if (workDay?.id <= 5) {
-        console.log('working morning shift');
-      }
-      if (workDay?.id > 5) {
-        console.log('working evening shift');
-      }
-    });
-  };
-
-  const generateTime = () => {
-    const selectedDay = date?.getDay() - 1; //  -1 to match with array index
-    const barbersBookedDay = dbBarbers[0]?.workHours[selectedDay]?.day;
-    const barbersBookedId = dbBarbers[0]?.workHours[selectedDay]?.id;
-
-    const barberStartHour = dbBarbers[0]?.workHours[selectedDay]?.startHour;
-    const barberEndHour = dbBarbers[0]?.workHours[selectedDay]?.endHour;
-
-    if (barbersBookedId <= 5) {
-      return <option>7:00</option>;
-    }
-    if (barbersBookedId <= 5) {
-      return <option>12:00</option>;
-    }
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <h2>Book your appointment</h2>
@@ -240,9 +213,10 @@ const Form = () => {
         )}
         <span className="form-err-msg">{formErrors.selectedDate}</span>
         <SelectTime
+          onChange={handleChange}
           barberPicked={formValues.selectedBarber}
           datePicked={date}
-          onChange={handleChange}
+          dbBarbers={dbBarbers}
         />
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>

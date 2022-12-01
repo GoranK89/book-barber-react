@@ -1,17 +1,37 @@
-const SelectTime = ({ onChange, barberPicked, datePicked }) => {
+const SelectTime = ({ onChange, barberPicked, datePicked, dbBarbers }) => {
   // IN PROGRESS
-  const selectHours = [];
-  const selectMinutes = [];
-  const workHours = () => {
-    const startHour = 7;
-    const endHour = 15;
+  const generateTime = () => {
+    const selectedDay = datePicked?.getDay() - 1; //  -1 to match with array index
+    const barbersBookedDay = dbBarbers[0]?.workHours[selectedDay]?.day;
+    const barbersBookedId = dbBarbers[0]?.workHours[selectedDay]?.id;
 
-    for (let i = startHour; i <= endHour; i++) {
-      selectHours.push(i);
+    const barberStartHour = dbBarbers[0]?.workHours[selectedDay]?.startHour;
+    const barberEndHour = dbBarbers[0]?.workHours[selectedDay]?.endHour;
+
+    const allWorkHours = [];
+    for (let i = barberStartHour; i <= barberEndHour; i++) {
+      allWorkHours.push(`${i}:00`);
     }
-    for (let j = 5; j <= 60; j += 5) selectMinutes.push(j);
+    if (barbersBookedId <= 5) {
+      return allWorkHours.map((item, index) => {
+        return (
+          <option key={index} value={item}>
+            {item}
+          </option>
+        );
+      });
+    }
+
+    if (barbersBookedId > 5) {
+      return allWorkHours.map((item, index) => {
+        return (
+          <option key={index} value={item}>
+            {item}
+          </option>
+        );
+      });
+    }
   };
-  workHours();
 
   return (
     <select
@@ -24,11 +44,7 @@ const SelectTime = ({ onChange, barberPicked, datePicked }) => {
         Select time
       </option>
       {barberPicked && datePicked ? (
-        selectHours?.map((h, i) => (
-          <option key={i} value={h}>
-            {h}
-          </option>
-        ))
+        generateTime()
       ) : (
         <option disabled className="form-err-msg">
           First select a date
