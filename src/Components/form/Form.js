@@ -8,6 +8,47 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
+  // async (GET) API DATA
+  const fetchServices = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/services');
+      const data = await res.json();
+      setServices(data);
+    } catch (error) {
+      console.error(`Services data, ${error}`);
+    }
+  };
+  const fetchBarbers = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/barbers');
+      const data = await res.json();
+      setBarbers(data);
+    } catch (error) {
+      console.error(`Barbers data, ${error}`);
+    }
+  };
+  const fetchWorkHours = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/workHours');
+      const data = await res.json();
+      setWorkHours(data);
+    } catch (error) {
+      console.error(`Work hours data, ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+    fetchBarbers();
+    fetchWorkHours();
+  }, []);
+
+  // db = the json 'database'
+  const [dbServices, setServices] = useState([]);
+  const [dbBarbers, setBarbers] = useState([]);
+  const [dbWorkHours, setWorkHours] = useState([]);
+  const [date, setDate] = useState(null);
+
   const initialInputValues = {
     firstName: '',
     lastName: '',
@@ -17,8 +58,7 @@ const Form = () => {
     selectedBarber: '',
     selectedTime: '',
   };
-  // seperate useState for date - doesn't work with regular handleChange
-  const [date, setDate] = useState(null);
+
   const [formValues, setFormValues] = useState(initialInputValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -74,53 +114,6 @@ const Form = () => {
     return errors;
   };
 
-  // async (GET) API DATA
-  const fetchServices = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/services');
-      const data = await res.json();
-      setServices(data);
-    } catch (error) {
-      console.error(`Services data, ${error}`);
-    }
-  };
-  const fetchBarbers = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/barbers');
-      const data = await res.json();
-      setBarbers(data);
-    } catch (error) {
-      console.error(`Barbers data, ${error}`);
-    }
-  };
-  const fetchWorkHours = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/workHours');
-      const data = await res.json();
-      setWorkHours(data);
-    } catch (error) {
-      console.error(`Work hours data, ${error}`);
-    }
-  };
-
-  useEffect(() => {
-    fetchServices();
-    fetchBarbers();
-    fetchWorkHours();
-  }, []);
-
-  // db = the json 'database'
-  const [dbServices, setServices] = useState([]);
-  const [dbBarbers, setBarbers] = useState([]);
-  const [dbWorkHours, setWorkHours] = useState([]);
-
-  const barberWorkDays = dbBarbers[0]?.workHours;
-
-  const isWeekday = date => {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
-  };
-
   const displayPrice = () => {
     // make this less manual
     if (formValues.selectedService === 'Shave') {
@@ -136,9 +129,45 @@ const Form = () => {
   };
 
   if (formValues.selectedBarber === 'Jože Britvica') {
-    // select date = filter: his work days
-    // select time = his work time
   }
+
+  const filterWeekdays = date => {
+    const day = date.getDay();
+    return (
+      day === dbBarbers[0]?.workHours[0].day ||
+      day === dbBarbers[0]?.workHours[1].day ||
+      day === dbBarbers[0]?.workHours[2].day ||
+      day === dbBarbers[0]?.workHours[3].day ||
+      day === dbBarbers[0]?.workHours[4].day
+    );
+  };
+
+  const checkShift = () => {
+    dbWorkHours.forEach(workDay => {
+      if (workDay?.id <= 5) {
+        console.log('working morning shift');
+      }
+      if (workDay?.id > 5) {
+        console.log('working evening shift');
+      }
+    });
+  };
+
+  const generateTime = () => {
+    const selectedDay = date?.getDay() - 1; //  -1 to match with array index
+    const barbersBookedDay = dbBarbers[0]?.workHours[selectedDay]?.day;
+    const barbersBookedId = dbBarbers[0]?.workHours[selectedDay]?.id;
+
+    const barberStartHour = dbBarbers[0]?.workHours[selectedDay]?.startHour;
+    const barberEndHour = dbBarbers[0]?.workHours[selectedDay]?.endHour;
+
+    if (barbersBookedId <= 5) {
+      return <option>7:00</option>;
+    }
+    if (barbersBookedId <= 5) {
+      return <option>12:00</option>;
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -196,7 +225,7 @@ const Form = () => {
             onChange={date => setDate(date)}
             selected={date}
             minDate={new Date()}
-            filterDate={isWeekday}
+            filterDate={filterWeekdays}
             dateFormat="dd/MM/yyyy"
           />
         ) : (
@@ -209,13 +238,12 @@ const Form = () => {
             </option>
           </select>
         )}
-
         <span className="form-err-msg">{formErrors.selectedDate}</span>
         <SelectTime
           barberPicked={formValues.selectedBarber}
+          datePicked={date}
           onChange={handleChange}
         />
-
         <span className="form-err-msg">{formErrors.selectedTime}</span>
       </div>
       <input className="input" placeholder={displayPrice()} disabled />

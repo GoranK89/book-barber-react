@@ -1,4 +1,4 @@
-const SelectTime = ({ onChange, barberPicked }) => {
+const SelectTime = ({ onChange, barberPicked, datePicked }) => {
   // IN PROGRESS
   const selectHours = [];
   const selectMinutes = [];
@@ -23,7 +23,7 @@ const SelectTime = ({ onChange, barberPicked }) => {
       <option value="default" disabled>
         Select time
       </option>
-      {barberPicked != '' ? (
+      {barberPicked && datePicked ? (
         selectHours?.map((h, i) => (
           <option key={i} value={h}>
             {h}
@@ -31,7 +31,7 @@ const SelectTime = ({ onChange, barberPicked }) => {
         ))
       ) : (
         <option disabled className="form-err-msg">
-          First select a barber
+          First select a date
         </option>
       )}
     </select>
