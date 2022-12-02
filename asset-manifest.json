@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/book-barber-react/static/css/main.6d084684.css",
-    "main.js": "/book-barber-react/static/js/main.5309f6ed.js",
+    "main.js": "/book-barber-react/static/js/main.6c8f52c8.js",
     "static/media/img_hero.jpg": "/book-barber-react/static/media/img_hero.7195312da0a7c00399f1.jpg",
     "index.html": "/book-barber-react/index.html",
     "main.6d084684.css.map": "/book-barber-react/static/css/main.6d084684.css.map",
-    "main.5309f6ed.js.map": "/book-barber-react/static/js/main.5309f6ed.js.map"
+    "main.6c8f52c8.js.map": "/book-barber-react/static/js/main.6c8f52c8.js.map"
   },
   "entrypoints": [
     "static/css/main.6d084684.css",
-    "static/js/main.5309f6ed.js"
+    "static/js/main.6c8f52c8.js"
   ]
 }
