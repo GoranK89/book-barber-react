@@ -1,5 +1,13 @@
+import { useState, useEffect } from 'react';
+
 const SelectTime = ({ onChange, barberPicked, datePicked, dbBarbers }) => {
-  // IN PROGRESS
+  const breakPoint = 515;
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResizeWindow);
+  }, [width]);
+
   const renderAvailableTimes = () => {
     const selectedDay = datePicked?.getDay() - 1; //  -1 to match with array index
     const barbersBookedDay = dbBarbers[0]?.workHours[selectedDay]?.day;
@@ -39,7 +47,7 @@ const SelectTime = ({ onChange, barberPicked, datePicked, dbBarbers }) => {
       name="selectedTime"
     >
       <option value="default" disabled>
-        Select time
+        {width > breakPoint ? ' Select time' : 'Time'}
       </option>
       {barberPicked && datePicked ? (
         renderAvailableTimes()

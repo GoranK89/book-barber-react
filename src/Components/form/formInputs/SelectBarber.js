@@ -1,4 +1,13 @@
+import { useState, useEffect } from 'react';
+
 const SelectBarber = ({ onChange, barberArr }) => {
+  const breakPoint = 515;
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResizeWindow);
+  }, [width]);
+
   return (
     <select
       onChange={onChange}
@@ -7,7 +16,7 @@ const SelectBarber = ({ onChange, barberArr }) => {
       defaultValue={'default'}
     >
       <option value="default" disabled>
-        Select barber
+        {width > breakPoint ? ' Select barber' : 'Barber'}
       </option>
       {barberArr.map(barber => (
         <option

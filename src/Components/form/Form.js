@@ -8,6 +8,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
+  // change this to a reusable component!
+  const breakPoint = 515;
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResizeWindow);
+  }, [width]);
+
   const fetchServices = async () => {
     try {
       const res = await fetch('http://localhost:5000/services');
@@ -165,7 +173,9 @@ const Form = () => {
     if (formValues.selectedService === 'Shave + Haircut') {
       return `Price is ${dbServices[2].price} €`;
     }
-    if (!formValues.selectedService) return 'Select a service';
+    if (!formValues.selectedService && width > breakPoint) {
+      return 'Select a service';
+    } else return 'Price';
   };
 
   if (formValues.selectedBarber === 'Jože Britvica') {
@@ -215,7 +225,7 @@ const Form = () => {
           onChange={handleChange}
           name={'phone'}
           type={'tel'}
-          placeholder={'Contact number'}
+          placeholder={width > breakPoint ? 'Contact number' : 'Phone'}
         />
         <span className="form-err-msg">{formErrors.phone}</span>
       </div>
@@ -244,7 +254,7 @@ const Form = () => {
         ) : (
           <select className="input" defaultValue={'default'}>
             <option value="default" disabled>
-              Select Date
+              {width > breakPoint ? 'Select Date' : 'Date'}
             </option>
             <option className="form-err-msg" disabled>
               First select a barber

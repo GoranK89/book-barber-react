@@ -1,4 +1,13 @@
+import { useState, useEffect } from 'react';
+
 const SelectService = ({ onChange, serviceArr, barberPicked }) => {
+  const breakPoint = 515;
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResizeWindow);
+  }, [width]);
+
   return (
     <select
       onChange={onChange}
@@ -7,7 +16,7 @@ const SelectService = ({ onChange, serviceArr, barberPicked }) => {
       defaultValue={'default'}
     >
       <option value="default" disabled>
-        Select service
+        {width > breakPoint ? ' Select service' : 'Service'}
       </option>
       {barberPicked != '' ? (
         serviceArr.map(service => (

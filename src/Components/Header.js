@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 const Header = () => {
-  // Keep track of window size
   const breakPoint = 515;
   const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {

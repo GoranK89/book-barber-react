@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# Booking App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Izgled
 
-## Available Scripts
+- Za izgled čimbolj podoben originalnemu sem moral spremeniti resolucijo priložene slike za svoj ekran (1920x1080). Nevem, če je to idealno, ampak layout je prilagojen temu.
 
-In the project directory, you can run:
+- Namesto REM sem uporabljal PX, ker se layout drugače ni dobro ujemal.
 
-### `npm start`
+- Tipografija ni identična tisti v navodilih, ker se mi ni ujemala s prikazom v PerfectPixel.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Priložen izgled mobile layouta se mi je ujemal na širini ekrana 515px, zato je mobile povsem prilagojen takšni širini
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Frontend
 
-### `npm test`
+- Aplikacijo sem skušal nekako razdeliti na smiselne komponente, čeprav verjetno daleč od idealnega. Mislim, da bi lahko tu še veliko izboljšal in 'počistil' za bolj logične povezave.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Pri izbiri datuma je neželjen učinek, izbira časa se prestavi pod izbiro datuma... pri mobile postavitvi se to ne zgodi.
 
-### `npm run build`
+- Opozorilo ob preskakovanju korakov je vstavljeno v disabled option... bolj začasna rešitev in ne najlepša.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Na največ težav sem naletel pri generiranju delovnega časa, trenutno se prikažejo samo ure primerne na frizerjevo izmeno.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Povzetek
 
-### `npm run eject`
+Naloga je bila zanimiva in dober opomin, da je nekaj kar izgleda dokaj enostavno, lahko hitro relativno zapleteno. Iskreno z Reactom in Sassom še nisem dovolj delal, zato sem se veliko naučil sproti.
+V vsakem primeru (uspeha ali neuspeha) se vam zahvaljujem za priložnost in vas prosim za povratne informacije kjer so rešitve neprimerne in kaj vas je najbolj zmotilo.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### json-server
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+za json-server sem uporabil: [http://localhost:5000].

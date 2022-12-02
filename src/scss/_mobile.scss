@@ -30,7 +30,7 @@
     form {
       position: static;
       gap: 0;
-      padding: 32px 38px;
+      padding: 32px 32px;
       padding-bottom: 0;
 
       h2 {
@@ -63,6 +63,10 @@
         font-size: 19px;
         padding: 16px 0;
         width: 380px;
+      }
+
+      #date-picker {
+        width: 100%;
       }
     }
   }
