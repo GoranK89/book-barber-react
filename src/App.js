@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<BookingPage />} />
+      <Route path="/book-barber-react" element={<BookingPage />} />
       <Route path="/success" element={<SuccessPage />} />
     </Routes>
   );
